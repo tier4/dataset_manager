@@ -4,3 +4,8 @@ project(dataset_manager)
 find_package(catkin REQUIRED)
 catkin_package()
 
+install(
+  FILES
+  install.sh
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+)
