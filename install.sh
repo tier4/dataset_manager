@@ -12,9 +12,7 @@ else
     echo "failed to change directory"
     return
   }
-  if [ -e link ];then
-    rm -rf link
-  fi
+  rm -rf link
   ln -s $AW_DATASET_PATH link
   echo "$AW_DATASET_PATH"
   echo "success to install dataset!!!"
