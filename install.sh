@@ -1,19 +1,30 @@
 #!/bin/bash
+#
+# input env vars:
+# - AW_INSTALL_PATH
+# - AW_DATASET_PATH
+#
+# please export the above vars in .profile and .bashrc
+#
 
-# please set environmental variable "AW_DATASET_PATH" in ~/.bashrc
-source ~/.bashrc
+source ${AW_INSTALL_PATH}/setup.sh
+current_dir=`pwd`
 
-if [ -z $AW_DATASET_PATH ];then
+autoware_dataset_path=${AW_DATASET_PATH}
+if [ -z "${autoware_dataset_path}" ];then
   echo "please set environment variable AW_DATASET_PATH"
-elif [ ! -d $AW_DATASET_PATH ];then
-  echo "cannot find $AW_DATASET_PATH"
+elif [ ! -d ${autoware_dataset_path} ];then
+  echo "cannot find ${autoware_dataset_path}"
 else
-  roscd dataset_manager || {
-    echo "failed to change directory"
-    return
-  }
-  rm -rf link
-  ln -s $AW_DATASET_PATH link
-  echo "$AW_DATASET_PATH"
-  echo "success to install dataset!!!"
+  install_dir=`rospack find dataset_manager`
+  if [ -e ${install_dir} ]; then
+    cd ${install_dir}
+    rm -rf link
+    ln -s ${autoware_dataset_path} link
+    echo "${autoware_dataset_path}"
+    echo "success to install dataset!!!"
+  fi
 fi
+cd ${current_dir}
+unset current_dir
+unset autoware_dataset_path
